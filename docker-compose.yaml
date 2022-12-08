@@ -88,7 +88,49 @@ services:
       - codebloxnet
     depends_on:
       - "mongo"
-    
+
+  webappui:
+    image: <>
+    container_name: codebloxwebui2
+    hostname: codebloxwebui2
+    ports: 
+      - "80:80"
+    volumes:
+      - codebloxwebui2: /share
+    networks:
+      - codebloxnet
+  
+  webapi:
+      image: <>
+      container_name: codebloxapi
+      hostname: codebloxapi
+      ports: 
+        - "5055:5055"
+      volumes:
+        - codebloxapi: /share
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Staging
+      networks:
+        - codebloxnet
+
+  codebloxrulesworker:
+      image: <>
+      container_name: codebloxrulesworker
+      hostname: codebloxrulesworker
+      environment:
+        - CODEBLOX_ENV=Staging
+      networks:
+        - codebloxnet
+
+  codebloxtimeworker:
+      image: <>
+      container_name: codebloxtimeworker
+      hostname: codebloxtimeworker
+      environment:
+        - CODEBLOX_ENV=Staging
+      networks:
+        - codebloxnet  
+
 volumes:
   mssql_data:
   mssql_log:
@@ -96,6 +138,8 @@ volumes:
   zookeeper_data:
   kafka_data:
   mongo:
+  codebloxwebui2:
+  codebloxapi:
 
 networks:
   codebloxnet:
